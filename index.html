@@ -6,24 +6,30 @@
     </head>
     <body>
         <h1>socketIO</h1>
-        <script src="/socket.io/socket.io.js"></script>
-        <p><input type="text" name="pseudo" id="pseudo"></p>
+        <textarea name="message" id="message" placeholder="message..."></textarea>
+        <p><input type="text" name="pseudo" id="pseudo" placeholder="pseudo"></p>
         <p><input type="button" name="poke" id="poke" value="poke"></p>
+        <div id="messages">
+
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
         <script>
             var socket = io.connect('http://localhost:8000');
             socket.on('message', function(message) {
                 console.log('Le serveur a un message pour vous: ' + message);
             });
 
-            socket.on('client', function(message) {
-                console.log(message);
+            socket.on('clients', function(message) {
+                console.log(message.nick + " - " + message.message);
             })
 
             var poke = document.getElementById('poke');
             poke.onclick = function () {
                 var pseudo = document.getElementById('pseudo').value;
+                var message = document.getElementById('message').value;
                 console.log(pseudo);
-                socket.emit('message', {'pseudo': pseudo, 'message': 'Hello World'});
+                console.log(message);
+                socket.emit('message', {'pseudo': pseudo, 'message': message});
             }
         </script>
     </body>

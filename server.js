@@ -13,7 +13,7 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connect', function(socket) {
     socket.broadcast.emit('message', 'Un utilisateur s\'est connecté');
     socket.on('message', function(client) {
-        socket.broadcast.emit('client', client.pseudo + ' vous dit: ' + client.message);
+        socket.broadcast.emit('clients', {'nick': client.pseudo, 'message': client.message});
     })
 });
 
