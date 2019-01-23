@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>socketIO</title>
+    </head>
+    <body>
+        <h1>socketIO</h1>
+        <script src="/socket.io/socket.io.js"></script>
+        <p><input type="text" name="pseudo" id="pseudo"></p>
+        <p><input type="button" name="poke" id="poke" value="poke"></p>
+        <script>
+            var socket = io.connect('http://localhost:8000');
+            socket.on('message', function(message) {
+                console.log('Le serveur a un message pour vous: ' + message);
+            });
+
+            socket.on('client', function(message) {
+                console.log(message);
+            })
+
+            var poke = document.getElementById('poke');
+            poke.onclick = function () {
+                var pseudo = document.getElementById('pseudo').value;
+                console.log(pseudo);
+                socket.emit('message', {'pseudo': pseudo, 'message': 'Hello World'});
+            }
+        </script>
+    </body>
+</html>
